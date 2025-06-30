@@ -1,4 +1,3 @@
-// src/ProductDetailScreen.tsx
 import React from 'react';
 import {
   SafeAreaView,
@@ -14,8 +13,8 @@ import {
 } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { PRODUCTS } from './data/products';
-import { RootStackParamList } from '../App';
+import { PRODUCTS } from '../data/products';
+import { RootStackParamList } from '../navigation/types';
 
 type RouteProps = RouteProp<RootStackParamList, 'ProductDetail'>;
 
@@ -67,7 +66,7 @@ export default function ProductDetailScreen() {
           ))}
         </View>
 
-        {/* Description or details */}
+        {/* Description */}
         {product.description && (
           <Text style={styles.description}>{product.description}</Text>
         )}
@@ -101,7 +100,6 @@ export default function ProductDetailScreen() {
           <Text style={styles.buyNowText}>Buy it now</Text>
         </TouchableOpacity>
       </View>
-
     </SafeAreaView>
   );
 }
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
   },
   back: {
     position: 'absolute',
-    top: Platform.OS === 'android' ? StatusBar.currentHeight! + 12 : 12,
+    top: Platform.OS === 'android' ? (StatusBar.currentHeight || 0) + 12 : 12,
     left: 16,
     zIndex: 1,
     backgroundColor: 'rgba(255,255,255,0.8)',
