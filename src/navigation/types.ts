@@ -1,9 +1,13 @@
+// src/navigation/types.ts
 export type RootStackParamList = {
   Home: undefined;
+  Register: undefined;
+  ForgotPassword: undefined;
+  EditProfile: undefined;
   ProductDetail: { productId: string };
-  Category: undefined;
   ProductListByCategory: { category: string };
   Search: undefined;
   Favorite: undefined;
-  // Thêm các màn hình khác nếu có
+  Category: undefined;
+  Login: undefined;
 };

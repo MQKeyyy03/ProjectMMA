@@ -14,6 +14,13 @@ import Header from '../components/Header';
 import { Feather } from '@expo/vector-icons';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/types';
+import Toast from 'react-native-toast-message';
+type NavigationProp = StackNavigationProp<RootStackParamList>;
+
 
 const { width } = Dimensions.get('window');
 const SECTION_SPACING = 18;
@@ -21,13 +28,42 @@ const SECTION_SPACING = 18;
 export default function HomeScreen({ navigation }: any) {
   const bestSellers = PRODUCTS.slice(0, 2);
   const topTrends = PRODUCTS.slice(2, 4);
+  const nav = useNavigation<NavigationProp>();
+
+
+
+  const handleLogout = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Logging out...',
+      text2: 'See you next time 👋',
+      visibilityTime: 2000, // Hiển thị 2 giây
+    });
+
+    setTimeout(() => {
+      nav.navigate('Login');
+    }, 2000); // Đợi toast chạy xong rồi mới navigate
+  };
+
+
+  const handleEditProfile = () => {
+    nav.navigate('EditProfile');
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
       <Header
-        title="Explore"
-        left={<Feather name="menu" size={22} color="#000" />}
-        right={<Feather name="bell" size={22} color="#FF6600" />}
+        title="Home Page"
+        left={
+          <TouchableOpacity onPress={handleLogout}>
+            <Feather name="log-out" size={22} color="#FF6600" />
+          </TouchableOpacity>
+        }
+        right={
+          <TouchableOpacity onPress={handleEditProfile}>
+            <Feather name="user" size={22} color="#FF6600" />
+          </TouchableOpacity>
+        }
       />
 
       <ScrollView showsVerticalScrollIndicator={false}>
