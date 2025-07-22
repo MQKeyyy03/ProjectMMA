@@ -1,4 +1,3 @@
-// src/navigation/types.ts
 export type RootStackParamList = {
   Home: undefined;
   Register: undefined;
@@ -10,4 +9,13 @@ export type RootStackParamList = {
   Favorite: undefined;
   Category: undefined;
   Login: undefined;
+  Cart: undefined;
+  Payment: undefined;
+  MockPayment: { linkedMethod?: string } | undefined;
+  LinkAccount: { methodId: string; methodName: string };
+  Receipt: { methodId: string; methodName: string; amount: number };
+  OrderPending: { methodId: string; methodName: string };
+  Profile: undefined;
+  MyOrders: undefined;
+  SuccessPayment: undefined;
 };

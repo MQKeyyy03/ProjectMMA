@@ -15,17 +15,39 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { PRODUCTS } from '../data/products';
 import { RootStackParamList } from '../navigation/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
+
+
 
 type RouteProps = RouteProp<RootStackParamList, 'ProductDetail'>;
 
 const { width } = Dimensions.get('window');
 const IMAGE_HEIGHT = width * 0.75;
 
+
 export default function ProductDetailScreen() {
   const route = useRoute<RouteProps>();
   const navigation = useNavigation();
   const product = PRODUCTS.find(p => p.id === route.params.productId);
+  const add = async () => {
+    try {
+      const cartData = await AsyncStorage.getItem('cart');
+      let cart = cartData ? JSON.parse(cartData) : [];
 
+      const existing = cart.find((item: any) => item.id === product);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      Alert.alert('✅ Đã thêm vào giỏ hàng');
+    } catch (error) {
+      console.error('Lỗi khi thêm vào giỏ:', error);
+    }
+  };
   if (!product) {
     return (
       <SafeAreaView style={styles.safe}>
@@ -43,7 +65,6 @@ export default function ProductDetailScreen() {
       >
         <Ionicons name="chevron-back" size={24} color="#1C1B1F" />
       </TouchableOpacity>
-
       <ScrollView contentContainerStyle={styles.content}>
         <Image
           source={product.image}
@@ -90,10 +111,8 @@ export default function ProductDetailScreen() {
           </View>
         )}
       </ScrollView>
-
-      {/* Action buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.addToCart}>
+        <TouchableOpacity onPress={add} style={styles.addToCart}>
           <Text style={styles.addToCartText}>Add to cart</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buyNow}>
