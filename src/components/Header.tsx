@@ -5,14 +5,16 @@ type Props = {
   title: string;
   left?: React.ReactNode;
   right?: React.ReactNode;
+  nextright?: React.ReactNode;
 };
 
-export default function Header({ title, left, right }: Props) {
+export default function Header({ title, left, right,nextright }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.side}>{left}</View>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.side}>{right}</View>
+      <View style={styles.side}>{nextright}</View>
     </View>
   );
 }

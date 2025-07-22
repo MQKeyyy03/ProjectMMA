@@ -59,12 +59,17 @@ export default function HomeScreen({ navigation }: any) {
             <Feather name="log-out" size={22} color="#FF6600" />
           </TouchableOpacity>
         }
+      nextright={
+              <TouchableOpacity onPress={() => nav.navigate('Cart')}>
+        <Text >🛒 Giỏ hàng</Text >
+      </TouchableOpacity>}
         right={
           <TouchableOpacity onPress={handleEditProfile}>
             <Feather name="user" size={22} color="#FF6600" />
           </TouchableOpacity>
         }
       />
+
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Banner sale */}

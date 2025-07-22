@@ -10,4 +10,10 @@ export type RootStackParamList = {
   Favorite: undefined;
   Category: undefined;
   Login: undefined;
+  Cart: undefined;
+  Payment: undefined;
+  MockPayment: { linkedMethod?: string } | undefined;
+  LinkAccount: { methodId: string; methodName: string };
+  Receipt: { methodId: string; methodName: string; amount: number };
+  OrderPending: { methodId: string; methodName: string };
 };
