@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/types";
@@ -24,12 +31,9 @@ export default function ProductListByCategoryScreen() {
       <Header
         title={category}
         left={
-          <Feather
-            name="chevron-left"
-            size={26}
-            color="#FF6600"
-            onPress={() => navigation.goBack()}
-          />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Feather name="chevron-left" size={26} color="#FF6600" />
+          </TouchableOpacity>
         }
       />
       <FlatList

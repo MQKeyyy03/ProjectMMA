@@ -12,9 +12,6 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@assets/*": [
-        "src/assets/*"
-      ],
       "@components/*": [
         "src/components/*"
       ],
