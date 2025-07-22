@@ -7,6 +7,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 type RootStackParamList = {
     Receipt: { methodId: string; methodName: string };
     OrderPending: { methodId: string; methodName: string };
+    OrderList: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'OrderPending'>;
@@ -17,7 +18,7 @@ export default function OrderPendingScreen() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigation.navigate("Home" as never);
+            navigation.navigate("OrderList" as never);
         }, 5000); // 5 giây
 
         return () => clearTimeout(timer);

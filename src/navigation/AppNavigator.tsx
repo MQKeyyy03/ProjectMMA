@@ -10,7 +10,7 @@ import SearchScreen from "../screens/SearchScreen";
 import FavoriteScreen from "../screens/FavoriteScreen";
 import ProductDetailScreen from "../screens/ProductDetailScreen";
 import ProductListByCategoryScreen from "../screens/ProductListByCategoryScreen";
-import PaymentScreen from '../screens/PaymentScreen';
+import PaymentScreen from "../screens/PaymentScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
@@ -20,7 +20,9 @@ import { RootStackParamList } from "./types";
 import LinkAccountScreen from "../screens/LinkAccountScreen";
 // import ReceiptScreen from "../screens/ReceiptScreen";
 import OrderPendingScreen from "../screens/OrderPendingScreen";
-
+import UserScreen from "@screens/UserScreen";
+import OrderListScreen from "@screens/OrderListScreen";
+import OrderDetailScreen from "@screens/OrderDetailScreen";
 
 const Tab = createBottomTabNavigator();
 function MainTabs() {
@@ -43,7 +45,9 @@ function MainTabs() {
         component={HomeScreen}
         options={{
           tabBarLabel: "",
-          tabBarIcon: ({ color }) => <Feather name="home" size={24} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Feather name="home" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -51,7 +55,9 @@ function MainTabs() {
         component={CategoryScreen}
         options={{
           tabBarLabel: "",
-          tabBarIcon: ({ color }) => <Feather name="grid" size={24} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Feather name="grid" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -59,7 +65,9 @@ function MainTabs() {
         component={FavoriteScreen}
         options={{
           tabBarLabel: "",
-          tabBarIcon: ({ color }) => <Feather name="heart" size={24} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Feather name="heart" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -67,7 +75,19 @@ function MainTabs() {
         component={SearchScreen}
         options={{
           tabBarLabel: "",
-          tabBarIcon: ({ color }) => <Feather name="search" size={24} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Feather name="search" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={UserScreen}
+        options={{
+          tabBarLabel: "",
+          tabBarIcon: ({ color }) => (
+            <Feather name="user" size={24} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -88,14 +108,30 @@ export default function AppNavigator() {
         {/* Màn chính */}
         <Stack.Screen name="Home" component={MainTabs} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-        <Stack.Screen name="ProductListByCategory" component={ProductListByCategoryScreen} />
+        <Stack.Screen
+          name="ProductListByCategory"
+          component={ProductListByCategoryScreen}
+        />
         <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Payment" component={PaymentScreen} options={{ title: 'Phương thức thanh toán' }} />
-        <Stack.Screen name="LinkAccount" component={LinkAccountScreen} options={{ title: 'Liên kết tài khoản' }} />
+        <Stack.Screen
+          name="Payment"
+          component={PaymentScreen}
+          options={{ title: "Phương thức thanh toán" }}
+        />
+        <Stack.Screen
+          name="LinkAccount"
+          component={LinkAccountScreen}
+          options={{ title: "Liên kết tài khoản" }}
+        />
         {/* <Stack.Screen name="Receipt" component={ReceiptScreen} options={{ title: 'Biên lai' }} /> */}
-        <Stack.Screen name="OrderPending" component={OrderPendingScreen} options={{ headerShown: false }} />
-
-
+        <Stack.Screen
+          name="OrderPending"
+          component={OrderPendingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="OrderList" component={OrderListScreen} />
+        <Stack.Screen name="OrderDetail" component={OrderDetailScreen} />
+        
         {/* Màn cá nhân */}
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
       </Stack.Navigator>

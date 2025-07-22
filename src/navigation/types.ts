@@ -1,3 +1,6 @@
+import { Product } from "@data/products";
+import { Order } from "@data/orders";
+
 // src/navigation/types.ts
 export type RootStackParamList = {
   Home: undefined;
@@ -11,9 +14,12 @@ export type RootStackParamList = {
   Category: undefined;
   Login: undefined;
   Cart: undefined;
-  Payment: undefined;
-  MockPayment: { linkedMethod?: string } | undefined;
+  Payment: { orderedProducts: Product[] }; // nếu Payment vẫn cần nhận orderedProducts
+  MockPayment: { linkedMethod?: string; orderedProducts?: Product[] } | undefined;
   LinkAccount: { methodId: string; methodName: string };
   Receipt: { methodId: string; methodName: string; amount: number };
+
   OrderPending: { methodId: string; methodName: string };
+  OrderList: undefined; 
+  OrderDetail: { order: Order };
 };

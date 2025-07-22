@@ -10,10 +10,9 @@ import { ButtonType } from '@stripe/stripe-react-native/lib/typescript/src/types
 
 
 type RootStackParamList = {
-    Cart: undefined;
-    Payment: undefined;
+  Cart: undefined;
+  Payment: { orderedProducts: Product[] }; 
 };
-
 type Props = NativeStackScreenProps<RootStackParamList, 'Cart'>;
 
 export default function CartScreen({ navigation }: Props) {
@@ -73,22 +72,22 @@ export default function CartScreen({ navigation }: Props) {
         );
     };
     const handleCheckoutPress = () => {
-        Animated.sequence([
-            Animated.timing(scaleAnim, {
-                toValue: 0.95,
-                duration: 100,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleAnim, {
-                toValue: 1,
-                duration: 100,
-                useNativeDriver: true,
-            }),
-        ]).start(() => {
-            // Gọi thanh toán
-            navigation.navigate('Payment');
-        });
-    };
+  Animated.sequence([
+    Animated.timing(scaleAnim, {
+      toValue: 0.95,
+      duration: 100,
+      useNativeDriver: true,
+    }),
+    Animated.timing(scaleAnim, {
+      toValue: 1,
+      duration: 100,
+      useNativeDriver: true,
+    }),
+  ]).start(() => {
+    // ✅ Gọi thanh toán và truyền orderedProducts
+    navigation.navigate('Payment', { orderedProducts: cartItems });
+  });
+};
 
     const renderItem = ({ item }: { item: Product }) => (
         <View style={styles.itemContainer}>

@@ -5,6 +5,10 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import OrderPendingScreen from './OrderPendingScreen';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetModal } from '@gorhom/bottom-sheet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Product } from '../data/products';
+import { createOrderFromCart, Order } from '../data/orders';
+import { OrderManager } from '../data/orderManager';
 // Thay icon: 💳 ➝ credit-card-outline, 📱 ➝ cellphone, 💸 ➝ cash-multiple, 🏦 ➝ bank, 📦 ➝ truck-delivery
 
 
@@ -12,7 +16,7 @@ import BottomSheet, { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 
 type RootStackParamList = {
-    MockPayment: { linkedMethod?: string } | undefined;
+    MockPayment: { linkedMethod?: string; orderedProducts?: Product[] } | undefined;
     LinkAccount: { methodId: string; methodName: string };
     // Receipt: { methodId: string; methodName: string };
     OrderPending: { methodId: string; methodName: string };
@@ -43,6 +47,9 @@ export default function PaymentScreen() {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
     const snapPoints = useMemo(() => ['40%'], []);
 
+    // Lấy orderedProducts từ route params
+    const orderedProducts = route.params?.orderedProducts || [];
+
     const [linkedAccounts, setLinkedAccounts] = useState<Record<string, boolean>>({
         card: false,
         momo: false,
@@ -71,22 +78,46 @@ export default function PaymentScreen() {
         }
     }, [route.params]);
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (!selectedMethod) {
             Alert.alert('Vui lòng chọn phương thức thanh toán');
-        } else {
-            const selectedVoucherObj = vouchers.find(v => v.id === selectedVoucher);
-            const voucherText = selectedVoucherObj
-                ? `\nVoucher áp dụng: ${selectedVoucherObj.code}`
-                : '';
-            Alert.alert('Thanh toán thành công', `Bạn đã chọn: ${selectedMethod}${voucherText}`);
-            const methodName = paymentMethods.find((m) => m.id === selectedMethod)?.name || '';
-            // navigation.navigate('Receipt', {methodId: selectedMethod,methodName,});
-            navigation.navigate('OrderPending', {
-                methodId: selectedMethod,
-                methodName,
-            });
+            return;
+        }
 
+        if (!orderedProducts || orderedProducts.length === 0) {
+            Alert.alert('Lỗi', 'Không có sản phẩm nào để thanh toán');
+            return;
+        }
+
+        try {
+            // Tạo order từ cart items
+            const methodName = paymentMethods.find((m) => m.id === selectedMethod)?.name || '';
+            const newOrder = createOrderFromCart(orderedProducts, methodName);
+            
+            // Lưu order vào AsyncStorage bằng OrderManager
+            const success = await OrderManager.addOrder(newOrder);
+            
+            if (success) {
+                // Xóa giỏ hàng sau khi đặt hàng thành công
+                await AsyncStorage.removeItem('cart');
+                
+                const selectedVoucherObj = vouchers.find(v => v.id === selectedVoucher);
+                const voucherText = selectedVoucherObj
+                    ? `\nVoucher áp dụng: ${selectedVoucherObj.code}`
+                    : '';
+                Alert.alert('Thanh toán thành công', `Bạn đã chọn: ${methodName}${voucherText}`);
+                
+                // navigation.navigate('Receipt', {methodId: selectedMethod,methodName,});
+                navigation.navigate('OrderPending', {
+                    methodId: selectedMethod,
+                    methodName,
+                });
+            } else {
+                Alert.alert('Lỗi', 'Có lỗi xảy ra khi lưu đơn hàng');
+            }
+        } catch (error) {
+            console.error('Error saving order:', error);
+            Alert.alert('Lỗi', 'Có lỗi xảy ra khi lưu đơn hàng');
         }
     };
 
@@ -156,20 +187,16 @@ export default function PaymentScreen() {
                 </TouchableOpacity>
             ))}
             <Text style={styles.title}>Chọn mã giảm giá</Text>
-            {vouchers.map((voucher) => (
-                <TouchableOpacity
-                    style={styles.voucherButton}
-                    onPress={() => bottomSheetRef.current?.present()}
-                >
-                    <Text style={styles.voucherButtonText}>
-                        {selectedVoucher
-                            ? `Mã đã chọn: ${vouchers.find(v => v.id === selectedVoucher)?.code}`
-                            : 'Chọn mã giảm giá'}
-                    </Text>
-                </TouchableOpacity>
-
-
-            ))}
+            <TouchableOpacity
+                style={styles.voucherButton}
+                onPress={() => bottomSheetRef.current?.present()}
+            >
+                <Text style={styles.voucherButtonText}>
+                    {selectedVoucher
+                        ? `Mã đã chọn: ${vouchers.find(v => v.id === selectedVoucher)?.code}`
+                        : 'Chọn mã giảm giá'}
+                </Text>
+            </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={handleConfirm}>
                 <Text style={styles.buttonText}>Xác nhận thanh toán</Text>
