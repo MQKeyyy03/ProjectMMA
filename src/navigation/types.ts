@@ -1,4 +1,3 @@
-// src/navigation/types.ts
 export type RootStackParamList = {
   Home: undefined;
   Register: undefined;
@@ -10,4 +9,5 @@ export type RootStackParamList = {
   Favorite: undefined;
   Category: undefined;
   Login: undefined;
+  Profile: undefined;
 };

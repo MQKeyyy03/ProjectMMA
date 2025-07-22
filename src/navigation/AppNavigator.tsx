@@ -1,4 +1,5 @@
 import React from "react";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -15,6 +16,9 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
+
+import ProfileScreen from "../screens/ProfileScreen";
+
 
 import { RootStackParamList } from "./types";
 
@@ -66,6 +70,18 @@ function MainTabs() {
           tabBarIcon: ({ color }) => <Feather name="search" size={24} color={color} />,
         }}
       />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "", // ✅ Không hiển thị chữ
+          tabBarIcon: ({ color }) => (
+            <Feather name="user" size={24} color={color} />
+          ),
+        }}
+      />
+
+
     </Tab.Navigator>
   );
 }
