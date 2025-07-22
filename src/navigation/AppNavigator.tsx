@@ -11,16 +11,20 @@ import SearchScreen from "../screens/SearchScreen";
 import FavoriteScreen from "../screens/FavoriteScreen";
 import ProductDetailScreen from "../screens/ProductDetailScreen";
 import ProductListByCategoryScreen from "../screens/ProductListByCategoryScreen";
-
+import PaymentScreen from '../screens/PaymentScreen';
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
-
+import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 
 import { RootStackParamList } from "./types";
+import LinkAccountScreen from "../screens/LinkAccountScreen";
+// import ReceiptScreen from "../screens/ReceiptScreen";
+import OrderPendingScreen from "../screens/OrderPendingScreen";
+
 
 const Tab = createBottomTabNavigator();
 function MainTabs() {
@@ -101,6 +105,12 @@ export default function AppNavigator() {
         <Stack.Screen name="Home" component={MainTabs} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         <Stack.Screen name="ProductListByCategory" component={ProductListByCategoryScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Payment" component={PaymentScreen} options={{ title: 'Phương thức thanh toán' }} />
+        <Stack.Screen name="LinkAccount" component={LinkAccountScreen} options={{ title: 'Liên kết tài khoản' }} />
+        {/* <Stack.Screen name="Receipt" component={ReceiptScreen} options={{ title: 'Biên lai' }} /> */}
+        <Stack.Screen name="OrderPending" component={OrderPendingScreen} options={{ headerShown: false }} />
+
 
         {/* Màn cá nhân */}
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
