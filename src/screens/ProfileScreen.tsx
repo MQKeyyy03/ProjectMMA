@@ -38,6 +38,7 @@ const avatarUrl =
   avatar && avatar !== ''
     ? avatar
     : 'https://ui-avatars.com/api/?name=User&background=ccc&color=fff';
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Profile</Text>

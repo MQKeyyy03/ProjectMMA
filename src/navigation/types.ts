@@ -16,4 +16,6 @@ export type RootStackParamList = {
   Receipt: { methodId: string; methodName: string; amount: number };
   OrderPending: { methodId: string; methodName: string };
   Profile: undefined;
+  MyOrders: undefined;
+  SuccessPayment: undefined;
 };

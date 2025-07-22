@@ -16,12 +16,14 @@ export default function OrderPendingScreen() {
     const route = useRoute<any>();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            navigation.navigate("Home" as never);
-        }, 5000); // 5 giây
+  const timer = setTimeout(() => {
+    navigation.navigate("SuccessPayment", {
+      methodName: route.params?.methodName,
+    } as never); // 👈 Cần ép kiểu với 'as never' do typescript không hiểu rõ ở đây
+  }, 5000); // 5 giây
 
-        return () => clearTimeout(timer);
-    }, []);
+  return () => clearTimeout(timer);
+}, []);
 
     return (
         <View style={styles.container}>

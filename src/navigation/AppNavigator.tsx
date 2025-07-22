@@ -18,6 +18,7 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import SuccessPaymentScreen from "../screens/SuccessPaymentScreen";
 
 
 import { RootStackParamList } from "./types";
@@ -109,11 +110,14 @@ export default function AppNavigator() {
         <Stack.Screen name="Payment" component={PaymentScreen} options={{ title: 'Phương thức thanh toán' }} />
         <Stack.Screen name="LinkAccount" component={LinkAccountScreen} options={{ title: 'Liên kết tài khoản' }} />
         {/* <Stack.Screen name="Receipt" component={ReceiptScreen} options={{ title: 'Biên lai' }} /> */}
+        <Stack.Screen name="SuccessPayment" component={SuccessPaymentScreen} options={{ headerShown: false }} />
         <Stack.Screen name="OrderPending" component={OrderPendingScreen} options={{ headerShown: false }} />
 
 
         {/* Màn cá nhân */}
         <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
